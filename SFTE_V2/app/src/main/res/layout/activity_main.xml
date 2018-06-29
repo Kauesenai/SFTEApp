@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+        
+        <ImageView
+            android:id="@+id/spashBg"
+            android:scaleType="fitStart"
+            android:src="@drawable/logo"
+            android:layout_width="match_parent"
+            android:layout_margin="65px"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/containerLayout"
+            android:layout_margin="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textColor="@color/txt_color"
+                style="@style/LabelStyle"
+                android:layout_marginBottom="150dp"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="@font/sf_pro_display_light"
+                android:text="@string/sistema_facil_de_transporte_escolar" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <Button
+                    android:onClick="login"
+                    android:id="@+id/login_btn"
+                    style="@style/SolidButtonStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/login"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_color"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

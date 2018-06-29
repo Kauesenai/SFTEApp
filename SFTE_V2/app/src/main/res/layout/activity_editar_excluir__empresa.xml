@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/EditarExcluir_Empresa"
+    tools:context=".EditarExcluir_Empresa">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textColor="#FFF"/>
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow_sfte"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/domain"
+                    android:padding="10dp"
+                    android:tint="@color/txt_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/editar_empresas"
+                    android:textColor="@color/txt_color"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/linearLayout1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-10dp"
+                android:rotation="45" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp">
+
+                <ImageView
+                    android:id="@+id/imgView_userIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/domain"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/razao_social"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imgView_userIcon"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imgView_userIcon"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/razao_social"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/txt_color"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imgView_passwordIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/contacts"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/cnpj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imgView_passwordIcon"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imgView_passwordIcon"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/cnpj"
+                    android:inputType="text"
+                    android:textColor="@color/txt_color"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imgView_repasswordIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/subject"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/inscricao_estadual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imgView_repasswordIcon"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imgView_repasswordIcon"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/inscricao_estadual"
+                    android:textColor="@color/txt_color"
+                    android:inputType="text"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout3"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imgView_emailIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/phone"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/telefone_comercial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imgView_emailIcon"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/txt_color"
+                    android:layout_toRightOf="@+id/imgView_emailIcon"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/telefone_comercial"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout4"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imgView_emailI"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/location"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/uf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imgView_emailI"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imgView_emailI"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/uf"
+                    android:textColor="@color/txt_color"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/ima_uf"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/streetview"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/rua"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ima_uf"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ima_uf"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/rua"
+                    android:textColor="@color/txt_color"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout6"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/ima_bairro"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/streetview"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/bairro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ima_bairro"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ima_bairro"
+                    android:textColor="@color/txt_color"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/bairro"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout7"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/numero_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/streetview"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/numero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/numero_img"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/numero_img"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/numero"
+                    android:textColor="@color/txt_color"
+                    android:inputType="number"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout8"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/ima_cidade"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/background"
+                    android:padding="8dp"
+                    android:src="@drawable/streetview"
+                    android:tint="@color/txt_color" />
+
+                <EditText
+                    android:id="@+id/cidade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ima_cidade"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ima_cidade"
+                    android:background="@color/colorAccent"
+                    android:hint="@string/cidade"
+                    android:textColor="@color/txt_color"
+                    android:paddingLeft="20dp"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <Button
+                android:onClick="Editar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout9"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/yellow_sfte"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/editar"
+                android:textColor="@color/txt_color" />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</ScrollView>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.httpssftetransporte.sfte">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_bg"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo_bg"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".Dashboard" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".EmpresasActivity"
+            android:label="Empresas"
+            android:parentActivityName=".EmpresasActivity" />
+        <activity
+            android:name=".EditarExcluir_Empresa"
+            android:label="Gerenciar Empresa"
+            android:parentActivityName=".EditarExcluir_Empresa" />
+        <activity
+            android:name=".CriancasActivity"
+            android:label="Crianças"
+            android:parentActivityName=".CriancasActivity" />
+        <activity
+            android:name=".FuncionariosActivity"
+            android:label="Funcionários"
+            android:parentActivityName=".FuncionariosActivity" />
+        <activity
+            android:name=".CadastrarPassageiro"
+            android:label="Passageiros"
+            android:parentActivityName=".CadastrarPassageiro" />
+        <activity
+            android:name=".CadastrarVan"
+            android:label="Vans"
+            android:parentActivityName=".CadastrarVan" />
+        <activity
+            android:name=".VansActivity"
+            android:label="Vans"
+            android:parentActivityName=".CadastrarPassageiro" />
+        <activity android:name=".EscolaActivity"
+            android:label="Escolas"
+            android:parentActivityName=".EscolaActivity" />
+        <activity android:name=".MensalidadesActivity"
+            android:label="Mensalidade Mensal"
+            android:parentActivityName=".MensalidadesActivity" ></activity>
+    </application>
+
+</manifest>

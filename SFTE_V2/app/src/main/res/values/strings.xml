@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">SFTE</string>
+
+    <!--Titles-->
+    <string name="login_title">Login</string>
+    <!--Welcome messages-->
+    <string name="sistema_facil_de_transporte_escolar">Sistema Fácil \nde Transporte Escolar</string>
+
+    <!--Buttons labels-->
+    <string name="login">FAZER LOGIN</string>
+    <string name="esqueceu_senha">Esqueceu sua senha?</string>
+    <string name="divider_or">OU</string>
+
+    <!--Edit Texts-->
+    <string name="login_email">E-mail</string>
+    <string name="login_senha">Senha</string>
+    <string name="login_fb_btn_label">Entrar com Facebook</string>
+
+    <!---Dashboard Icons -->
+    <string name="painel_controle">Painel de Controle</string>
+    <string name="empresas">Empresas</string>
+    <string name="funcionarios">Funcionários</string>
+    <string name="vans">Vans</string>
+    <string name="escolas">Escolas</string>
+    <string name="passageiros">Passageiros</string>
+    <string name="rotas">Rotas</string>
+    <string name="mensalidades">Mensalidades</string>
+    <string name="chat">Chat</string>
+    <string name="title_activity_empresas">EmpresasActivity</string>
+    <string name="editar_empresas">Editar Empresa</string>
+    <string name="razao_social">Razão Social</string>
+    <string name="cnpj">CNPJ</string>
+    <string name="inscricao_estadual">Inscrição Estadual</string>
+    <string name="telefone_comercial">Telefone Comercial</string>
+    <string name="uf">UF</string>
+    <string name="rua">Rua</string>
+    <string name="bairro">Bairro</string>
+    <string name="numero">Nímero</string>
+    <string name="cidade">Cidade</string>
+    <string name="editar">Salvar Alterações</string>
+    <string name="nome_responsavel">Nome do Responsável</string>
+    <string name="rg_responsavel">Rg do Responsável</string>
+    <string name="data_nascimento">Data de Nascimento</string>
+    <string name="cpf">Cpf</string>
+    <string name="telefone">Telefone</string>
+    <string name="tipo_telefone">Tipo de Telefone</string>
+    <string name="senha">Senha</string>
+    <string name="parentesco">Parentesco</string>
+    <string name="escola">Escola</string>
+    <string name="van">Van</string>
+    <string name="nome_crianca">Nome Crianca</string>
+    <string name="cpf_passageiro">Cpf Passageiro</string>
+    <string name="rg_passageiro">Rg Passageiro</string>
+    <string name="cep">CEP</string>
+    <string name="estado">Estado</string>
+    <string name="hr_entrada">Hora Entrada</string>
+    <string name="hr_saida">Hora Saída</string>
+    <string name="cad_van">Cadastrar Van</string>
+    <string name="modelo">Modelo</string>
+    <string name="marca">Marca</string>
+    <string name="capacidade">Capacidade</string>
+    <string name="ano">Ano</string>
+    <string name="placa">Placa</string>
+    <string name="renavam">Renavam</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="monitora">Monitora</string>
+    <string name="motorista">Motorista</string>
+    <string name="cad_passageiro">Cadastrar Passageiro</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
