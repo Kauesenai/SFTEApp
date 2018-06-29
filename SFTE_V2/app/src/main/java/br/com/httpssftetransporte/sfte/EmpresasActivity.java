@@ -1,9 +1,13 @@
 package br.com.httpssftetransporte.sfte;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,7 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.httpssftetransporte.sfte.Construtoras.EmpresasConst;
 import br.com.httpssftetransporte.sfte.ListView.ListViewEmpresas;
@@ -32,117 +38,104 @@ public class EmpresasActivity extends AppCompatActivity {
 
 
     ListView listView;
-    List<EmpresasConst> heroList;
+    List<EmpresasConst> empresasList;
+    List<EmpresasConst> empresasQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empresas);
-        listView = (ListView) findViewById(R.id.listView);
-        heroList = new ArrayList<>();
-        listView.setTextFilterEnabled(true);//filtro pré-definido
-        loadHeroList();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                EmpresasConst van = heroList.get(i);
-                //Toast.makeText(VansActivity.this, "Foi o Toast", Toast.LENGTH_SHORT).show();
-                if(i==0){
-                    Intent puxarDados= new Intent(view.getContext(), EditarExcluir_Empresa.class);
-                    puxarDados.putExtra("id_empresa",van.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-            }
-        });
-
+        listView = findViewById(R.id.listView);
+        empresasList = new ArrayList<>();
+        empresasQuery = new ArrayList<>();
+        listView.setTextFilterEnabled(true);
+        loadEmpresasList();
+        registerForContextMenu(listView);
 
     }
 
-    private void loadHeroList() {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Ações");
+        menu.add(0,v.getId(),0,"Editar Empresa");
+        menu.add(0,v.getId(),0,"Excluir Empresa");
+    }
 
-        //final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Integer pos = info.position;
+        EmpresasConst empresas = empresasQuery.get(pos);
+        final String id_empresa = empresas.getId();
+        if(item.getTitle() == "Editar Empresa"){
+            Intent irTela = new Intent(EmpresasActivity.this, EditarExcluir_Empresa.class);
+            irTela.putExtra("id_empresa",id_empresa);
+            startActivity(irTela);
+        }
+        else if(item.getTitle() == "Excluir Empresa"){
+            AlertDialog.Builder builder = new AlertDialog.Builder(EmpresasActivity.this);
+            builder.setCancelable(true);
+            builder.setTitle("Deseja excluir essa empresa?");
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    CRUD.excluir(JSON_URL, id_empresa.toString(), getApplicationContext());
+                    listView.setAdapter(null);
+                    loadEmpresasList();
+                }
+            }).setNegativeButton("Não", null);
+            builder.create().show();
+        }
+        return true;
+    }
 
-
-        //progressBar.setVisibility(View.VISIBLE);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+    private void loadEmpresasList(){
+        empresasList.clear();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        //progressBar.setVisibility(View.INVISIBLE);
-
-
-                        try {
-
+                        try{
                             JSONObject obj = new JSONObject(response);
 
+                            JSONArray empresasArray = obj.getJSONArray("empresas");
 
-                            JSONArray heroArray = obj.getJSONArray("empresas");
+                            for (int i = 0; i < empresasArray.length(); i++){
+                                JSONObject empresasObject = empresasArray.getJSONObject(i);
 
+                                EmpresasConst empresas = new EmpresasConst(empresasObject.getString("id_empresa"),empresasObject.getString("razao_social"), empresasObject.getString("telefone_comercial"));
 
-                            for (int i = 0; i < heroArray.length(); i++) {
-
-                                JSONObject heroObject = heroArray.getJSONObject(i);
-
-
-                                EmpresasConst hero = new EmpresasConst(heroObject.getString("id_empresa"), heroObject.getString("razao_social"), heroObject.getString("cnpj"));
-
-
-                                heroList.add(hero);
+                                empresasList.add(empresas);
+                                empresasQuery.add(empresas);
                             }
 
-
-                            ListViewEmpresas adapter = new ListViewEmpresas(heroList, getApplicationContext());
-
+                            ListViewEmpresas adapter = new ListViewEmpresas(empresasList, getApplicationContext());
 
                             listView.setAdapter(adapter);
 
-                        } catch (JSONException e) {
+                        }catch (JSONException e){
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener(){
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void onErrorResponse(VolleyError error){
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+        ){
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("select", "select");
 
-
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-
         requestQueue.add(stringRequest);
     }
-
-    public boolean onQueryTextChange(String newText){//Semelhante ao onkeyup do javascript
-        if (TextUtils.isEmpty(newText)) {//verifica se o texto digitado é nulo
-            /*Como o texto digitado é nulo, limpamos todos os filtros
-              Assim mostramos todos os registos  */
-            listView.clearTextFilter();
-        } else {
-            //Caso o texto nao é seja vazio, é definido ele como nosso filto
-            listView.setFilterText(newText);
-        }
-        return true;
-    }
-    public boolean onQueryTextSubmit(String query){
-        /*
-         * Este metodo é usado para o botao de submit,
-         * em nosso caso nao ultilizamos esse botao,
-         * assim retornamos ele como false, já que o metodo
-         * é obrigatorio por conta do implements.
-         *
-         * Para poder usar ele defina  searchView.setSubmitButtonEnabled(true); em seu onCreate
-         * */
-        return false;
-    }
-
 
 }
 

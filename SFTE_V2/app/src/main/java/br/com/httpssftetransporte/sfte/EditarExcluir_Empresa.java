@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,149 +25,130 @@ import java.util.Map;
 
 public class EditarExcluir_Empresa extends AppCompatActivity {
 
-    RequestQueue requestQueue;
-    String HttpUrl = "https://sftetransporte.com.br/Android/lista_empresa_id.php";
-    String editar = "https://sftetransporte.com.br/Android/update_empresa.php";
-    String excluir = "https://sftetransporte.com.br/Android/delete_empresa.php";
+    private String id_empresa;
 
-    TextView txtView;
-    EditText razao_social;
-    EditText cnpj;
-    EditText inscricao_estadual;
-    EditText telefone_comercial;
-    EditText uf;
-    EditText rua;
-    EditText bairro;
-    EditText numero;
-    EditText cidade;
+    private static final String JSON_URL = "https://sftetransporte.com.br/Android/updateempresas.php";
 
+    EditText razaosocial, cnpj, inscricao, telcomercial, uf, rua, bairro, numero, cidade;
 
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_excluir__empresa);
-        requestQueue = Volley.newRequestQueue(this);
 
-        razao_social = findViewById(R.id.razao_social);
+        razaosocial = findViewById(R.id.razao_social);
         cnpj = findViewById(R.id.cnpj);
-        inscricao_estadual = findViewById(R.id.inscricao_estadual);
-        telefone_comercial = findViewById(R.id.telefone_comercial);
+        inscricao = findViewById(R.id.inscricao_estadual);
+        telcomercial = findViewById(R.id.telefone_comercial);
         uf = findViewById(R.id.uf);
         rua = findViewById(R.id.rua);
         bairro = findViewById(R.id.bairro);
         numero = findViewById(R.id.numero);
         cidade = findViewById(R.id.cidade);
 
-        txtView = (TextView)findViewById(R.id.textView1);
+        btn = findViewById(R.id.editar);
+
         try{
             Intent i = getIntent();
-            String getId = i.getStringExtra("id_empresa");
-            txtView.setText(getId);
-            //Toast.makeText(this, getId, Toast.LENGTH_SHORT).show();
-
+            this.id_empresa = i.getStringExtra("id_empresa");
         }catch(NullPointerException e){
             e.printStackTrace();
         }
-        PuxarDados();
+
+        carregar();
     }
 
-    public void PuxarDados() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpUrl,
+    public void carregar(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String ServerResponse) {
-                        System.out.println(ServerResponse);
-
+                    public void onResponse(String response) {
                         try{
-                            JSONObject obj = new JSONObject(ServerResponse);
+                            JSONObject obj = new JSONObject(response);
 
-                            JSONArray servicocompraArray = obj.getJSONArray("empresas");
-                            JSONObject jo = servicocompraArray.getJSONObject(0);
+                            JSONArray empresasArray = obj.getJSONArray("empresas");
+                            JSONObject jo = empresasArray.getJSONObject(0);
 
-                            razao_social.setText(jo.getString("razao_social"));
+                            razaosocial.setText(jo.getString("razao_social"));
                             cnpj.setText(jo.getString("cnpj"));
-                            inscricao_estadual.setText(jo.getString("inscricao_estadual"));
-                            telefone_comercial.setText(jo.getString("telefone_comercial"));
+                            inscricao.setText(jo.getString("inscricao_estadual"));
+                            telcomercial.setText(jo.getString("telefone_comercial"));
                             uf.setText(jo.getString("uf"));
                             rua.setText(jo.getString("rua"));
                             bairro.setText(jo.getString("bairro"));
                             numero.setText(jo.getString("numero"));
                             cidade.setText(jo.getString("cidade"));
 
+
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
-
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener(){
                     @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(EditarExcluir_Empresa.this, "Erro", Toast.LENGTH_SHORT).show();
+                    public void onErrorResponse(VolleyError error){
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
+                }
+        ){
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
 
-                Map<String, String> params = new HashMap<>();
-                //     $_POST['nome']
-                params.put("id_empresa", txtView.getText().toString());
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("select", "select");
+                params.put("id_empresa", id_empresa);
+                params.put("cnpj", cnpj.getText().toString().trim());
+                params.put("inscricao_estadual", inscricao.getText().toString().trim());
+                params.put("telefone_comercial",telcomercial.getText().toString().trim());
+                params.put("uf", uf.getText().toString().trim());
+                params.put("rua", rua.getText().toString().trim());
+                params.put("bairro", bairro.getText().toString().trim());
+                params.put("numero", numero.getText().toString().trim());
+                params.put("cidade", cidade.getText().toString().trim());
+
                 return params;
             }
-
         };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
-        requestQueue.getCache().clear();//Limpando o cache
+    public void Editar(View v) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("update", "update");
+        params.put("id_empresa", id_empresa);
+        params.put("razao_social", razaosocial.getText().toString().trim());
+        params.put("cnpj", cnpj.getText().toString().trim());
+        params.put("inscricao_estadual", inscricao.getText().toString().trim());
+        params.put("telefone_comercial", telcomercial.getText().toString().trim());
+        params.put("uf", uf.getText().toString().trim());
+        params.put("rua", rua.getText().toString().trim());
+        params.put("bairro", bairro.getText().toString().trim());
+        params.put("numero", numero.getText().toString().trim());
+        params.put("cidade", cidade.getText().toString().trim());
+
+
+        StringRequest stringRequest = CRUD.editar("https://sftetransporte.com.br/Android/updateempresas.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jo = new JSONObject(response);
+                    String resposta = jo.getString("resposta");
+                    Toast.makeText(EditarExcluir_Empresa.this, resposta, Toast.LENGTH_SHORT).show();
+                    Intent irTela = new Intent(EditarExcluir_Empresa.this, EmpresasActivity.class);
+                    startActivity(irTela);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params,getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(EditarExcluir_Empresa.this);
         requestQueue.add(stringRequest);
 
     }
 
-
-    public void Editar(View view) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, editar,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String ServerResponse) {
-                        Toast.makeText(EditarExcluir_Empresa.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
-                        Intent lista = new Intent(EditarExcluir_Empresa.this, EmpresasActivity.class);
-                        startActivity(lista);
-                        //Toast.makeText(MainActivity.this, ServerResponse, Toast.LENGTH_LONG).show();
-                        //System.out.println(ServerResponse);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(EditarExcluir_Empresa.this, "Erro", Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-
-                Map<String, String> params = new HashMap<>();
-                //     $_POST['nome']
-                params.put("id_empresa", txtView.getText().toString());
-                params.put("razao_social", razao_social.getText().toString());
-                params.put("cnpj", cnpj.getText().toString());
-                params.put("inscricao_estadual", inscricao_estadual.getText().toString());
-                params.put("telefone_comercial", telefone_comercial.getText().toString());
-                params.put("uf", uf.getText().toString());
-                params.put("rua", rua.getText().toString());
-                params.put("bairro", bairro.getText().toString());
-                params.put("numero", numero.getText().toString());
-                params.put("cidade", cidade.getText().toString());
-
-
-                return params;
-            }
-
-        };
-
-
-        requestQueue.getCache().clear();//Limpando o cache
-        requestQueue.add(stringRequest);
-    }
 }
