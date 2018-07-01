@@ -35,7 +35,7 @@
             android:parentActivityName=".EditarExcluir_Empresa" />
         <activity
             android:name=".CriancasActivity"
-            android:label="Crianças"
+            android:label="Passageiros"
             android:parentActivityName=".CriancasActivity" />
         <activity
             android:name=".FuncionariosActivity"

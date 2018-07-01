@@ -36,7 +36,6 @@ public class EmpresasActivity extends AppCompatActivity {
 
     private static final String JSON_URL = "https://sftetransporte.com.br/Android/lista_emp.php";
 
-
     ListView listView;
     List<EmpresasConst> empresasList;
     List<EmpresasConst> empresasQuery;

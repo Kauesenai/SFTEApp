@@ -1,8 +1,12 @@
 package br.com.httpssftetransporte.sfte;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,158 +25,118 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import br.com.httpssftetransporte.sfte.Construtoras.EmpresasConst;
 import br.com.httpssftetransporte.sfte.Construtoras.FuncionariosConst;
+import br.com.httpssftetransporte.sfte.ListView.ListViewEmpresas;
 import br.com.httpssftetransporte.sfte.ListView.ListViewFuncionarios;
 
 public class FuncionariosActivity extends AppCompatActivity {
 
-
     private static final String JSON_URL = "https://sftetransporte.com.br/Android/lista_funcionarios.php";
 
-
     ListView listView;
-
-    SearchView searchView;
-    List<FuncionariosConst> heroList;
+    List<FuncionariosConst> funcionariosList;
+    List<FuncionariosConst> funcionariosQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_funcionarios);
+        listView = findViewById(R.id.listView);
+        funcionariosList = new ArrayList<>();
+        funcionariosQuery = new ArrayList<>();
+        listView.setTextFilterEnabled(true);
+        loadFuncionariosList();
+        registerForContextMenu(listView);
 
-        listView = (ListView) findViewById(R.id.listView);
-        heroList = new ArrayList<>();
-
-        loadHeroList();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FuncionariosConst funcionarios = heroList.get(i);
-                //Toast.makeText(VansActivity.this, "Foi o Toast", Toast.LENGTH_SHORT).show();
-                if(i==0){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==1){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==2){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==3){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==4){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==5){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==6){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==7){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==8){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==9){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_func",funcionarios.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-
-            }
-        });
     }
 
-    public void fab(View v){
-        Intent fab= new Intent(FuncionariosActivity.this,MainActivity.class);
-        startActivity(fab);
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Ações");
+        menu.add(0,v.getId(),0,"Editar Funcionário");
+        menu.add(0,v.getId(),0,"Excluir Funcionário");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Integer pos = info.position;
+        FuncionariosConst funcionarios = funcionariosQuery.get(pos);
+        final String id_funcionario = funcionarios.getId();
+        if(item.getTitle() == "Editar Funcionário"){
+            Intent irTela = new Intent(FuncionariosActivity.this, FuncionariosActivity.class);
+            irTela.putExtra("id_funcionario",id_funcionario);
+            startActivity(irTela);
+        }
+        else if(item.getTitle() == "Excluir Funcionário"){
+            AlertDialog.Builder builder = new AlertDialog.Builder(FuncionariosActivity.this);
+            builder.setCancelable(true);
+            builder.setTitle("Deseja excluir esse funcionário?");
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    CRUD.excluir(JSON_URL, id_funcionario.toString(), getApplicationContext());
+                    listView.setAdapter(null);
+                    loadFuncionariosList();
+                }
+            }).setNegativeButton("Não", null);
+            builder.create().show();
+        }
+        return true;
     }
 
 
-    private void loadHeroList() {
-
-        //final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-
-        //progressBar.setVisibility(View.VISIBLE);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+    private void loadFuncionariosList() {
+        funcionariosList.clear();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        //progressBar.setVisibility(View.INVISIBLE);
-
-
-                        try {
-
+                        try{
                             JSONObject obj = new JSONObject(response);
 
+                            JSONArray funcArray = obj.getJSONArray("funcionarios");
 
-                            JSONArray heroArray = obj.getJSONArray("funcionarios");
+                            for (int i = 0; i < funcArray.length(); i++){
+                                JSONObject funcObject = funcArray.getJSONObject(i);
 
+                                FuncionariosConst funcionarios = new FuncionariosConst(funcObject.getString("id_func"),funcObject.getString("nome"), funcObject.getString("cargo"));
 
-                            for (int i = 0; i < heroArray.length(); i++) {
-
-                                JSONObject heroObject = heroArray.getJSONObject(i);
-
-
-                                FuncionariosConst hero = new FuncionariosConst(heroObject.getString("id_func"), heroObject.getString("nome"), heroObject.getString("cargo"));
-
-
-                                heroList.add(hero);
+                                funcionariosList.add(funcionarios);
+                                funcionariosQuery.add(funcionarios);
                             }
 
-
-                            ListViewFuncionarios adapter = new ListViewFuncionarios(heroList, getApplicationContext());
-
+                            ListViewFuncionarios adapter = new ListViewFuncionarios(funcionariosList, getApplicationContext());
 
                             listView.setAdapter(adapter);
 
-                        } catch (JSONException e) {
+                        }catch (JSONException e){
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener(){
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void onErrorResponse(VolleyError error){
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+        ){
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("select", "select");
 
-
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-
         requestQueue.add(stringRequest);
     }
-
 
 }

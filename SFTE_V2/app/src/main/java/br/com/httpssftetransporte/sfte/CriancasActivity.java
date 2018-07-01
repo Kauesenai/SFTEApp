@@ -1,8 +1,12 @@
 package br.com.httpssftetransporte.sfte;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,122 +24,120 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.httpssftetransporte.sfte.Construtoras.CriancaConst;
+import br.com.httpssftetransporte.sfte.Construtoras.FuncionariosConst;
 import br.com.httpssftetransporte.sfte.ListView.ListViewCriancas;
+import br.com.httpssftetransporte.sfte.ListView.ListViewFuncionarios;
 
 public class CriancasActivity extends AppCompatActivity {
+
     private static final String JSON_URL = "https://sftetransporte.com.br/Android/lista_criancas.php";
 
-
     ListView listView;
-
-
-    List<CriancaConst> heroList;
+    List<CriancaConst> criancasList;
+    List<CriancaConst> criancasQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criancas);
 
-        listView = (ListView) findViewById(R.id.listView);
-        heroList = new ArrayList<>();
+        listView = findViewById(R.id.listView);
+        criancasList = new ArrayList<>();
+        criancasQuery = new ArrayList<>();
+        listView.setTextFilterEnabled(true);
+        loadCriancaList();
+        registerForContextMenu(listView);
 
-        loadHeroList();
-
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CriancaConst van = heroList.get(i);
-                //Toast.makeText(VansActivity.this, "Foi o Toast", Toast.LENGTH_SHORT).show();
-                if(i==0){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_crianca",van.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==1){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_crianca",van.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==2){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_crianca",van.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-                if(i==3){
-                    Intent puxarDados= new Intent(view.getContext(), MainActivity.class);
-                    puxarDados.putExtra("id_crianca",van.getId());
-                    startActivityForResult(puxarDados,0);
-                }
-
-            }
-        });
     }
 
-    private void loadHeroList() {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Ações");
+        menu.add(0,v.getId(),0,"Editar Passageiro");
+        menu.add(0,v.getId(),0,"Excluir Passageiro");
+    }
 
-        //final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Integer pos = info.position;
+        CriancaConst crianca = criancasQuery.get(pos);
+        final String id_crianca = crianca.getId();
+        if(item.getTitle() == "Editar Passageiro"){
+            Intent irTela = new Intent(CriancasActivity.this, CriancasActivity.class);
+            irTela.putExtra("id_crianca",id_crianca);
+            startActivity(irTela);
+        }
+        else if(item.getTitle() == "Excluir Passageiro"){
+            AlertDialog.Builder builder = new AlertDialog.Builder(CriancasActivity.this);
+            builder.setCancelable(true);
+            builder.setTitle("Deseja excluir esse passageiro?");
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    CRUD.excluir(JSON_URL, id_crianca.toString(), getApplicationContext());
+                    listView.setAdapter(null);
+                    loadCriancaList();
+                }
+            }).setNegativeButton("Não", null);
+            builder.create().show();
+        }
+        return true;
+    }
 
-
-        //progressBar.setVisibility(View.VISIBLE);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+    private void loadCriancaList() {
+        criancasList.clear();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        //progressBar.setVisibility(View.INVISIBLE);
-
-
-                        try {
-
+                        try{
                             JSONObject obj = new JSONObject(response);
 
+                            JSONArray criancaArray = obj.getJSONArray("criancas");
 
-                            JSONArray heroArray = obj.getJSONArray("criancas");
+                            for (int i = 0; i < criancaArray.length(); i++){
+                                JSONObject criancaObject = criancaArray.getJSONObject(i);
 
+                                CriancaConst crianca = new CriancaConst(criancaObject.getString("id_crianca"),criancaObject.getString("nome_crianca"), criancaObject.getString("cpf_passageiro"));
 
-                            for (int i = 0; i < heroArray.length(); i++) {
-
-                                JSONObject heroObject = heroArray.getJSONObject(i);
-
-
-                                CriancaConst hero = new CriancaConst(heroObject.getString("id_crianca"),heroObject.getString("nome_crianca"), heroObject.getString("cpf_passageiro"));
-
-
-                                heroList.add(hero);
+                                criancasList.add(crianca);
+                                criancasQuery.add(crianca);
                             }
 
-
-                            ListViewCriancas adapter = new ListViewCriancas(heroList, getApplicationContext());
-
+                            ListViewCriancas adapter = new ListViewCriancas(criancasList, getApplicationContext());
 
                             listView.setAdapter(adapter);
 
-                        } catch (JSONException e) {
+                        }catch (JSONException e){
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener(){
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void onErrorResponse(VolleyError error){
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+        ){
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("select", "select");
 
-
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-
         requestQueue.add(stringRequest);
     }
+
     public void ds (View v){
         Intent intent = new Intent(CriancasActivity.this, CadastrarPassageiro.class);
         startActivity(intent);
