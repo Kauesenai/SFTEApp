@@ -35,7 +35,7 @@
     <string name="uf">UF</string>
     <string name="rua">Rua</string>
     <string name="bairro">Bairro</string>
-    <string name="numero">Nímero</string>
+    <string name="numero">Número</string>
     <string name="cidade">Cidade</string>
     <string name="editar">Salvar Alterações</string>
     <string name="nome_responsavel">Nome do Responsável</string>
@@ -66,6 +66,26 @@
     <string name="monitora">Monitora</string>
     <string name="motorista">Motorista</string>
     <string name="cad_passageiro">Cadastrar Passageiro</string>
+    <string name="edit_passageiro">Editar Passageiro</string>
+    <string name="cad_mensalidade">Cadastrar Mensalidade</string>
+    <string name="passageiro">Passageiro</string>
+    <string name="data_venc">Data de Vencimento</string>
+    <string name="juros">Juros</string>
+    <string name="valor_mensalidade">Valor Mensalidade</string>
+    <string name="situacao">Situação</string>
+    <string name="editar_mensal">Editar Mensalidade</string>
+    <string name="nome_funcionario">Nome Funcionário</string>
+    <string name="rg">Rg</string>
+    <string name="tipo_funcionario">Tipo Funcionario</string>
+    <string name="data_admicao">Data Admissão</string>
+    <string name="cnh">Cnh</string>
+    <string name="validade_cnh">Validade Cnh</string>
+    <string name="primeira_cnh">Primeira Cnh</string>
+    <string name="categoria_cnh">Categoria Cnh</string>
+    <string name="sexo">Sexo</string>
+    <string name="salario">Salário</string>
+    <string name="cadastrar_func">Cadastrar Funcionário</string>
+    <string name="edi_func">Editar Funcionário</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

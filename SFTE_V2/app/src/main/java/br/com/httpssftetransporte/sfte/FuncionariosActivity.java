@@ -70,7 +70,7 @@ public class FuncionariosActivity extends AppCompatActivity {
         FuncionariosConst funcionarios = funcionariosQuery.get(pos);
         final String id_funcionario = funcionarios.getId();
         if(item.getTitle() == "Editar Funcionário"){
-            Intent irTela = new Intent(FuncionariosActivity.this, FuncionariosActivity.class);
+            Intent irTela = new Intent(FuncionariosActivity.this, EditarFuncionario.class);
             irTela.putExtra("id_funcionario",id_funcionario);
             startActivity(irTela);
         }
@@ -137,6 +137,11 @@ public class FuncionariosActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    public void ds (View v){
+        Intent intent = new Intent(FuncionariosActivity.this, CadastrarFuncionarios.class);
+        startActivity(intent);
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.httpssftetransporte.sfte;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,9 +75,8 @@ public class CadastrarPassageiro extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item);
         vans = new ArrayList<VansConst>();
-        carregarMotorista();
+        carregarVan();
 
-        //Motorista
         fk_id_van.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -89,8 +89,7 @@ public class CadastrarPassageiro extends AppCompatActivity {
             }
         });
     }
-    //Carregar Motorista
-    public void carregarMotorista(){
+    public void carregarVan(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://sftetransporte.com.br/Android/lista_van.php",
                 new Response.Listener<String>() {
                     @Override
@@ -132,62 +131,53 @@ public class CadastrarPassageiro extends AppCompatActivity {
         RequestQueue rq = Volley.newRequestQueue(this);
         rq.add(stringRequest);
     }
-        public void Cadastrar(View view) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String ServerResponse) {
-                        Toast.makeText(CadastrarPassageiro.this, "Enviado ao servidor", Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(MainActivity.this, ServerResponse, Toast.LENGTH_LONG).show();
-                        //System.out.println(ServerResponse);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(CadastrarPassageiro.this, "Erro", Toast.LENGTH_SHORT).show();
-                    }
-                }) {
+    public void Cadastrar(View v) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("nome", nome_responsavel.getText().toString().trim());
+        params.put("rg", rg_responsavel.getText().toString().trim());
+        params.put("data_nascimento", data_nascimento.getText().toString().trim());
+        params.put("email", email.getText().toString().trim());
+        params.put("senha", senha.getText().toString().trim());
+        params.put("cpf", cpf_responsavel.getText().toString().trim());
+        params.put("telefone", telefone.getText().toString().trim());
+        params.put("tipo_telefone", tipo_telefone.getText().toString().trim());
+        params.put("parentesco", parentesco.getText().toString().trim());
+        params.put("fk_id_escola", fk_id_escola.getText().toString().trim());
+
+        params.put("fk_id_van", idVan);
+
+       //Dados Criança
+        params.put("nome_crianca", nome_crianca.getText().toString().trim());
+        params.put("data_nascimento", data_nascimento.getText().toString().trim());
+        params.put("cpf_passageiro", cpf_passageiro.getText().toString().trim());
+        params.put("rg", rg_passageiro.getText().toString().trim());
+        params.put("cep", cep.getText().toString().trim());
+        params.put("rua", rua.getText().toString().trim());
+        params.put("estado", estado.getText().toString().trim());
+        params.put("cidade", cidade.getText().toString().trim());
+        params.put("bairro", bairro.getText().toString().trim());
+        params.put("numero", numero.getText().toString().trim());
+        params.put("hora_entrada", hr_entrada.getText().toString().trim());
+        params.put("hora_saida", hr_saida.getText().toString().trim());
+
+        CRUD.inserir("https://sftetransporte.com.br/Android/insert_mensalidades.php", new Response.Listener<String>() {
             @Override
-            protected Map<String, String> getParams() {
-
-                Map<String, String> params = new HashMap<>();
-                //     $_POST['nome']
-                params.put("nome", nome_responsavel.getText().toString());
-                params.put("data_nascimento", data_nascimento_responsavel.getText().toString());
-                params.put("rg", rg_responsavel.getText().toString());
-                params.put("email", email.getText().toString());
-                params.put("senha", senha.getText().toString());
-                params.put("cpf", cpf_responsavel.getText().toString());
-                params.put("telefone", telefone.getText().toString());
-                params.put("tipo_telefone", tipo_telefone.getText().toString());
-                params.put("parentesco", parentesco.getText().toString());
-                params.put("escola", fk_id_escola.getText().toString());
-                params.put("nome_crianca", nome_crianca.getText().toString());
-                params.put("cpf_passageiro", cpf_passageiro.getText().toString());
-                params.put("rg", rg_passageiro.getText().toString());
-                params.put("data_nascimento", data_nascimento.getText().toString());
-                params.put("rua", rua.getText().toString());
-                params.put("numero", numero.getText().toString());
-                params.put("cep", cep.getText().toString());
-                params.put("cidade", cidade.getText().toString());
-                params.put("bairro", bairro.getText().toString());
-                params.put("estado", estado.getText().toString());
-                params.put("van_embarque", fk_id_van.getSelectedItem().toString());
-                params.put("hora_saida", hr_saida.getText().toString());
-                params.put("hora_entrada", hr_entrada.getText().toString());
-
-
-
-                return params;
+            public void onResponse(String response){
+                try{
+                    Toast.makeText(CadastrarPassageiro.this, response, Toast.LENGTH_SHORT).show();
+                    JSONObject jo = new JSONObject(response);
+                    String resposta = jo.getString("resposta");
+                    Toast.makeText(CadastrarPassageiro.this, resposta, Toast.LENGTH_SHORT).show();
+                    Intent irTela = new Intent(CadastrarPassageiro.this, CriancasActivity.class);
+                    startActivity(irTela);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+        },params,getApplicationContext());
 
-        };
-
-
-        requestQueue.getCache().clear();//Limpando o cache
-        requestQueue.add(stringRequest);
     }
 
 }

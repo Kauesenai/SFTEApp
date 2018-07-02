@@ -53,12 +53,28 @@
             android:name=".VansActivity"
             android:label="Vans"
             android:parentActivityName=".CadastrarPassageiro" />
-        <activity android:name=".EscolaActivity"
+        <activity
+            android:name=".EscolaActivity"
             android:label="Escolas"
             android:parentActivityName=".EscolaActivity" />
-        <activity android:name=".MensalidadesActivity"
+        <activity
+            android:name=".MensalidadesActivity"
             android:label="Mensalidade Mensal"
-            android:parentActivityName=".MensalidadesActivity" ></activity>
+            android:parentActivityName=".MensalidadesActivity" />
+        <activity android:name=".EditarPassageiroActivity" />
+        <activity
+            android:name=".CadastrarMensalidade"
+            android:label="Cadastrar - Mensalidade"
+            android:parentActivityName=".CadastrarMensalidade"/>
+        <activity
+            android:name=".EditarMensalidade"
+            android:label="Editar - Mensalidade"
+            android:parentActivityName=".EditarMensalidade"/>
+        <activity android:name=".CadastrarFuncionarios" />
+        <activity
+            android:name=".EditarFuncionario"
+            android:label="Editar Funcionário"
+            android:parentActivityName=".EditarFuncionario"/>
     </application>
 
 </manifest>

@@ -87,7 +87,7 @@
                 android:id="@+id/telefone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/rg_responsavel"
+                android:hint="@string/telefone"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="45dp"
                 android:layout_marginRight="45dp"/>
