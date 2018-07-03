@@ -61,7 +61,10 @@
             android:name=".MensalidadesActivity"
             android:label="Mensalidade Mensal"
             android:parentActivityName=".MensalidadesActivity" />
-        <activity android:name=".EditarPassageiroActivity" />
+        <activity
+            android:name=".EditarPassageiroActivity"
+            android:label="Editar - Passageiro"
+            android:parentActivityName=".EditarPassageiroActivity"/>
         <activity
             android:name=".CadastrarMensalidade"
             android:label="Cadastrar - Mensalidade"
@@ -70,7 +73,10 @@
             android:name=".EditarMensalidade"
             android:label="Editar - Mensalidade"
             android:parentActivityName=".EditarMensalidade"/>
-        <activity android:name=".CadastrarFuncionarios" />
+        <activity
+            android:name=".CadastrarFuncionarios"
+            android:label="Cadastrar- Funcionário"
+            android:parentActivityName=".CadastrarFuncionarios"/>
         <activity
             android:name=".EditarFuncionario"
             android:label="Editar Funcionário"

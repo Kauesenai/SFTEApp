@@ -70,7 +70,7 @@ public class CriancasActivity extends AppCompatActivity {
         CriancaConst crianca = criancasQuery.get(pos);
         final String id_crianca = crianca.getId();
         if(item.getTitle() == "Editar Passageiro"){
-            Intent irTela = new Intent(CriancasActivity.this, CriancasActivity.class);
+            Intent irTela = new Intent(CriancasActivity.this, EditarPassageiroActivity.class);
             irTela.putExtra("id_crianca",id_crianca);
             startActivity(irTela);
         }

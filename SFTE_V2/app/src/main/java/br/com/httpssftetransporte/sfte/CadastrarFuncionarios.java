@@ -88,7 +88,6 @@ public class CadastrarFuncionarios extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try{
-                    Toast.makeText(CadastrarFuncionarios.this, response, Toast.LENGTH_SHORT).show();
                     JSONObject jo = new JSONObject(response);
                     String resposta = jo.getString("resposta");
                     Toast.makeText(CadastrarFuncionarios.this, resposta, Toast.LENGTH_SHORT).show();

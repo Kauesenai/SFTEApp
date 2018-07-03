@@ -162,11 +162,10 @@ public class CadastrarPassageiro extends AppCompatActivity {
         params.put("hora_entrada", hr_entrada.getText().toString().trim());
         params.put("hora_saida", hr_saida.getText().toString().trim());
 
-        CRUD.inserir("https://sftetransporte.com.br/Android/insert_mensalidades.php", new Response.Listener<String>() {
+        CRUD.inserir("https://sftetransporte.com.br/Android/insert_passageiro.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response){
                 try{
-                    Toast.makeText(CadastrarPassageiro.this, response, Toast.LENGTH_SHORT).show();
                     JSONObject jo = new JSONObject(response);
                     String resposta = jo.getString("resposta");
                     Toast.makeText(CadastrarPassageiro.this, resposta, Toast.LENGTH_SHORT).show();
